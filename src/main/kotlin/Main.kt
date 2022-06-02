@@ -1,7 +1,32 @@
+import kotlin.collections.HashMap
+
 fun main() {
     val secretWord = "BLAST"
     val userInput = "LASSO"
     println(returnMatchString(userInput, secretWord))
+    println(anagramFinder(userInput, secretWord))
+}
+
+fun anagramFinder(userInput: String, storedValue: String): Boolean{
+    if(userInput.length != storedValue.length)
+        return false
+
+    val storedMap = hashMapOf<Char?, Int?>()
+    val userMap = hashMapOf<Char?, Int?>()
+    for(char in storedValue.lowercase().filter { !it.isWhitespace() }){
+        when(storedMap[char]){
+            null -> storedMap[char] = 1
+            else -> storedMap[char]!!.plus(1)
+        }
+    }
+    for(char in userInput.lowercase().filter { !it.isWhitespace() }){
+        when(userMap[char]){
+            null -> userMap[char] = 1
+            else -> userMap[char]!!.plus(1)
+        }
+    }
+
+    return storedMap == userMap
 }
 
 fun returnMatchString(userInput: String, secretWord: String): String{
